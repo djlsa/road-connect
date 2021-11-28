@@ -5,7 +5,7 @@ export default function poolMixin<T>() {
 
     static poolGet(): T|any {
       // return from pool or create new instance
-      return Pool._pool.pop() || new this;
+      return Pool._pool.pop() || new this as T;
     }
 
     static poolPut(obj: T) {

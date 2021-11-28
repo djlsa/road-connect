@@ -1,5 +1,11 @@
 import { Game } from 'phaser';
+
+import Preload from './scenes/preload';
 import TitleScreen from './scenes/titleScreen';
+import LevelSelectScreen from './scenes/levelSelectScreen';
+
+import WinScreen from './scenes/winScreen';
+import PuzzleScreen from './scenes/puzzleScreen';
 
 export default class GameCanvas extends Game {
   static hCenter: number; // horizontal center
@@ -23,8 +29,9 @@ export default class GameCanvas extends Game {
         width: window.innerWidth,
         height: window.innerHeight
       },
-      scene: [TitleScreen]
+      scene: [Preload, TitleScreen, LevelSelectScreen, PuzzleScreen, WinScreen]
     });
+
     this._calcCenter();
 
     // hide preloader and show game, wait to prevent screen flashing while canvas inits

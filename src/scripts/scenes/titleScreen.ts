@@ -1,7 +1,8 @@
-import GameCanvas from '../game';
-import PlayButton from '../objects/playButton';
-import TitleText from '../objects/titleText';
 import Scene from './scene';
+import GameCanvas from '../game';
+
+import PlayButton from '../ui/playButton';
+import TitleText from '../ui/titleText';
 
 export default class TitleScreen extends Scene {
   titleText: TitleText;
@@ -12,8 +13,6 @@ export default class TitleScreen extends Scene {
   }
 
   create() {
-    super.create();
-
     this.titleText = new TitleText(this);
     this.playButton = new PlayButton(this);
 
@@ -29,8 +28,8 @@ export default class TitleScreen extends Scene {
     this.titleText.x = GameCanvas.hCenter;
     this.titleText.y = GameCanvas.vCenter - this.titleText.getBounds().height / 2;
 
-    this.playButton.resize()
+    this.playButton.resize();
     this.playButton.x = GameCanvas.hCenter;
-    this.playButton.y = GameCanvas.vCenter + this.playButton.height * 2;
+    this.playButton.y = GameCanvas.vCenter + this.playButton.getBounds().height * 2;
   }
 }

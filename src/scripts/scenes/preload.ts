@@ -32,6 +32,7 @@ export default class Preload extends Phaser.Scene {
     img.addEventListener('load', () => {
       this._imagesLoading--;
       if(this._imagesLoading == 0) // all images loaded, start next scene
+        this.scene.stop();
         this.scene.start('TitleScreen');
     });
   }
