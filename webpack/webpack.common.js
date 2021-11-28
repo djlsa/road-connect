@@ -20,6 +20,17 @@ module.exports = {
         include: path.join(__dirname, '../src'),
         loader: 'ts-loader'
       },
+      {
+        test: /\.asset?$/,
+        type: 'json',
+        include: path.join(__dirname, '../src/assets/Resources'),
+        loader: 'yaml-loader'
+      },
+      {
+        test: /\.(png|mp3)?$/,
+        include: path.join(__dirname, '../src/assets'),
+        loader: 'url-loader'
+      },
     ]
   },
   optimization: {
