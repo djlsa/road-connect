@@ -1,4 +1,4 @@
-import { Scene, Tweens } from "phaser";
+import { Scene } from "phaser";
 import GameCanvas from "../game";
 import Button from "./button";
 
@@ -10,8 +10,6 @@ export default class PlayButton extends Button {
     this.setScale(0); // start scale for animation
     this.setEnabled(false);
 
-    scene.add.existing(this);
-
     // animation
     scene.tweens.add({
       onComplete: () => {
@@ -20,9 +18,14 @@ export default class PlayButton extends Button {
       },
       targets: this,
       scale: 1, // end scale
+      delay: 250,
       duration: 500, // from Unity script GameUI.cs#ButtonPlayAppear() (0.5f)
       ease: Phaser.Math.Easing.Quadratic.InOut // same as above (setEaseInOutQuad)
     });
+
+    scene.add.existing(this);
+
+    this.resize();
   }
 
   pointerDown() {

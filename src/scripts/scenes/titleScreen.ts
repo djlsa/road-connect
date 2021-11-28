@@ -30,6 +30,6 @@ export default class TitleScreen extends Scene {
 
     this.playButton.resize();
     this.playButton.x = GameCanvas.hCenter;
-    this.playButton.y = GameCanvas.vCenter + this.playButton.getBounds().height * 2;
+    this.playButton.y = GameCanvas.vCenter + this.titleText.getBounds().height / 2;
   }
 }

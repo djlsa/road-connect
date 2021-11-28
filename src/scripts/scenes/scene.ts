@@ -4,11 +4,12 @@ export default abstract class Scene extends Phaser.Scene {
     super(config);
   }
 
-  create() {
+  preload() {
     // handle game resize events to reposition scene elements
-    this.game.events.on("resize", () => {
-      if(this.scene.isActive())
+    this.game.events.on('resize', () => {
+      if(this.game.scene.isVisible(this)) {
         this.resize();
+      }
     });
   }
 

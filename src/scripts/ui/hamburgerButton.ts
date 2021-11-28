@@ -1,4 +1,4 @@
-import { Scene, Tweens } from "phaser";
+import { Scene } from "phaser";
 import Button from "./button";
 
 export default class HamburgerButton extends Button {

@@ -41,7 +41,7 @@ export default abstract class Button extends Phaser.GameObjects.Container implem
 
     this.setSize(this.getBounds().width, this.getBounds().height); // needed for interactivity
 
-    this.setInteractive(); // set up events
+    this.setInteractive({ cursor: 'pointer'}); // set up events
     this.on('pointerdown', () => { if(this._enabled) this._pointerDown() });
     this.on('pointerup', () => { if(this._enabled) this._pointerUp() });
 
@@ -52,6 +52,7 @@ export default abstract class Button extends Phaser.GameObjects.Container implem
 
   resize() {
     this._text.resize();
+    this.setSize(this.getBounds().width, this.getBounds().height);
   }
 
   setText(text: string) {
