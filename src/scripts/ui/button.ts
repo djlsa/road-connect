@@ -39,7 +39,8 @@ export default abstract class Button extends Phaser.GameObjects.Container implem
 
     this.add([this._background, this._text]); // add background and text to button container
 
-    this.setSize(this.getBounds().width, this.getBounds().height); // needed for interactivity
+    const bounds = this.getBounds();
+    this.setSize(bounds.width, bounds.height); // needed for interactivity
 
     this.setInteractive({ cursor: 'pointer'}); // set up events
     this.on('pointerdown', () => { if(this._enabled) this._pointerDown() });
@@ -52,7 +53,8 @@ export default abstract class Button extends Phaser.GameObjects.Container implem
 
   resize() {
     this._text.resize();
-    this.setSize(this.getBounds().width, this.getBounds().height);
+    const bounds = this.getBounds();
+    this.setSize(bounds.width, bounds.height); // needed for interactivity
   }
 
   setText(text: string) {
@@ -62,6 +64,7 @@ export default abstract class Button extends Phaser.GameObjects.Container implem
   setEnabled(enabled: boolean) {
     this._enabled = enabled;
     this._background.setTexture(enabled ? this._textures.enabled : this._textures.disabled);
+    this.resize();
   }
 
   setTint(color: number) {
