@@ -9,4 +9,13 @@ export default class LevelSelectButton extends Button {
     }, false); // no shadow
     this.setEnabled(false);
   }
+
+  pointerUp() {
+    this.scene.sound.play('DefaultClick');
+  }
+
+  click() {
+    this.scene.scene.stop();
+    this.scene.scene.start('PuzzleScreen');
+  }
 }

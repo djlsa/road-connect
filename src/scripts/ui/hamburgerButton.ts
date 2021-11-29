@@ -9,7 +9,7 @@ export default class HamburgerButton extends Button {
       pressed: '',
       disabled: ''
     });
-    this.setScale(1, 0.7365); // values from Unity: 80, 58.92
+    this.setScale(0.8, 0.5892); // values from Unity: 80, 58.92
   }
 
   pointerDown() {
@@ -17,6 +17,7 @@ export default class HamburgerButton extends Button {
   }
 
   pointerUp() {
+    this.scene.sound.play('DefaultClick');
     this.setTint(0xffffff);
   }
 

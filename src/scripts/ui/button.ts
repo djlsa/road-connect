@@ -30,7 +30,6 @@ export default abstract class Button extends Phaser.GameObjects.Container implem
     this._textures = textures || { enabled: '', disabled: '', pressed: '' }; // default textures
 
     this._background = new Phaser.GameObjects.Sprite(scene, 0, 0, this._textures.enabled);
-    this._background.setOrigin(0.5, 0.5);
 
     if(!background)
       this._background.visible = false; // hide background if it's a text-only button

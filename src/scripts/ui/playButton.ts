@@ -33,6 +33,7 @@ export default class PlayButton extends Button {
   }
 
   pointerUp() {
+    this.scene.sound.play('DefaultClick');
     this.setScale(1);
   }
 

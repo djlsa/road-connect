@@ -1,13 +1,14 @@
 import Scene from './scene';
 import GameCanvas from '../game';
 
-import LevelSelectText from '../ui/levelSelectText';
+import Text from '../ui/text';
 
 import Level from '../levels/level';
 import LevelSelectGrid from '../ui/levelSelectGrid';
+import TextStyle from '../ui/textStyle';
 
 export default class LevelSelectScreen extends Scene {
-  private _levelSelectText: LevelSelectText;
+  private _levelSelectText: Text;
   private _levelSelectGrid: LevelSelectGrid;
 
   constructor() {
@@ -15,7 +16,8 @@ export default class LevelSelectScreen extends Scene {
   }
 
   create() {
-    this._levelSelectText = new LevelSelectText(this);
+    this._levelSelectText = new Text(this, 'LEVEL SELECT', TextStyle.BUTTON, 35);
+
     this._levelSelectGrid = new LevelSelectGrid(this, Level.getTotalLevels());
     this._levelSelectGrid.createGrid();
 
@@ -29,11 +31,11 @@ export default class LevelSelectScreen extends Scene {
 
     this._levelSelectText.resize();
     this._levelSelectText.x = GameCanvas.hCenter;
-    this._levelSelectText.y = GameCanvas.vCenter - this._levelSelectText.height * 2.5;
+    this._levelSelectText.y = this._levelSelectText.height / 2;
 
     this._levelSelectGrid.resize();
     this._levelSelectGrid.x = GameCanvas.hCenter - this._levelSelectGrid.getBounds().width / 2.5;
-    this._levelSelectGrid.y = GameCanvas.vCenter - this._levelSelectText.height * 1.5;
+    this._levelSelectGrid.y = GameCanvas.vCenter - this._levelSelectGrid.height / 3 | 1;
 
   }
 }

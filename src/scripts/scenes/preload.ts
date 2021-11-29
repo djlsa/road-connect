@@ -1,9 +1,22 @@
 import Music from '../../assets/Audio/Music/Funky Chill 2 loop.mp3';
+import DefaultClick from '../../assets/Audio/SFX/DefaultClick.mp3';
+import ShapeAppear from '../../assets/Audio/SFX/ShapeAppear.mp3';
+import RotateShape from '../../assets/Audio/SFX/RotateShape.mp3';
+import LevelComplete from '../../assets/Audio/SFX/LevelComplete.mp3';
+
 import barsHorizontal from '../../assets/Sprites/UI/barsHorizontal.png';
 import grey_button12 from '../../assets/Sprites/UI/grey_button12.png';
 import red_button08 from '../../assets/Sprites/UI/red_button08.png';
 import red_button09 from '../../assets/Sprites/UI/red_button09.png';
 
+import roadTexture_02 from '../../assets/Sprites/Roads/roadTexture_02.png';
+import roadTexture_22_BN360 from '../../assets/Sprites/Roads/roadTexture_22_BN360.png';
+import roadTexture_06 from '../../assets/Sprites/Roads/roadTexture_06.png';
+import roadTexture_29 from '../../assets/Sprites/Roads/roadTexture_29.png';
+import roadTexture_01_MR180 from '../../assets/Sprites/Roads/roadTexture_01_MR180.png';
+import roadTexture_10_BN360 from '../../assets/Sprites/Roads/roadTexture_10_BN360.png';
+import roadTexture_45 from '../../assets/Sprites/Roads/roadTexture_45.png';
+import Piece from '../levels/piece';
 export default class Preload extends Phaser.Scene {
 
   // count images to load before starting game
@@ -12,16 +25,31 @@ export default class Preload extends Phaser.Scene {
   preload() {
     // manually create WebAudio context to decode base64 file
     const soundManager: Phaser.Sound.WebAudioSoundManager = new Phaser.Sound.WebAudioSoundManager(this.game);
-    soundManager.decodeAudio('music', Music);
-    soundManager.on('decoded', () => {
-      soundManager.play('music');
+    soundManager.decodeAudio([
+      { key: 'Music', data: Music },
+      { key: 'DefaultClick', data: DefaultClick },
+      { key: 'ShapeAppear', data: ShapeAppear },
+      { key: 'RotateShape', data: RotateShape },
+      { key: 'LevelComplete', data: LevelComplete }
+    ]);
+    soundManager.on('decodedall', () => {
+      soundManager.play('Music', {
+        volume: 0.4 // value from Unity
+      });
     });
-
     // load images
     this.loadBase64('red_button08', red_button08);
     this.loadBase64('red_button09', red_button09);
     this.loadBase64('grey_button12', grey_button12);
     this.loadBase64('barsHorizontal', barsHorizontal);
+
+    this.loadBase64(Piece.IDs[0], roadTexture_02);
+    this.loadBase64(Piece.IDs[1], roadTexture_22_BN360);
+    this.loadBase64(Piece.IDs[2], roadTexture_06);
+    this.loadBase64(Piece.IDs[3], roadTexture_29);
+    this.loadBase64(Piece.IDs[4], roadTexture_01_MR180);
+    this.loadBase64(Piece.IDs[5], roadTexture_10_BN360);
+    this.loadBase64(Piece.IDs[6], roadTexture_45);
   }
 
   private loadBase64(key, uri) {
