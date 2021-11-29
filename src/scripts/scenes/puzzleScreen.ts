@@ -48,7 +48,8 @@ export default class PuzzleScreen extends Scene {
 
     // listen for levelComplete event
     this.events.on('levelComplete', () => {
-      GameCanvas.saveProgress(this._levelNumber); // save progress
+      if(GameCanvas.loadProgress() <= this._levelNumber)
+        GameCanvas.saveProgress(this._levelNumber + 1); // save progress
       this.tweens.add({
         targets: this._levelText,
         x: 0,
@@ -70,10 +71,10 @@ export default class PuzzleScreen extends Scene {
     this._levelText.x = GameCanvas.hCenter;
     this._levelText.y = this._levelText.height / 2;
 
-    this._puzzleGrid.setScale(GameCanvas.hCenter > GameCanvas.vCenter ? 1 : 1.5);
+    this._puzzleGrid.setScale(GameCanvas.hCenter > GameCanvas.vCenter ? 1 : 1.5); // para caber bem em landscape
 
     this._puzzleGrid.resize();
-    this._puzzleGrid.x = GameCanvas.hCenter - this._puzzleGrid.getBounds().width / 1.8 | 1; // integer values to prevent gaps
+    this._puzzleGrid.x = GameCanvas.hCenter - this._puzzleGrid.getBounds().width / 2 | 1; // integer values to prevent gaps
     this._puzzleGrid.y = GameCanvas.vCenter - this._puzzleGrid.height / 2 | 1;
 
     this._hamburgerButton.resize();

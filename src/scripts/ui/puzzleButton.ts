@@ -8,7 +8,7 @@ export default class PuzzleButton extends Button {
 
   constructor(scene) {
     super(scene, '', 0, true, { enabled: '' });
-    this.setScale(0.5);
+    this.setScale(0.25);
     this.alpha = 0;
   }
 

@@ -57,11 +57,11 @@ export default class Preload extends Phaser.Scene {
     img.addEventListener('load', () => {
       this._imagesLoading--;
       if(this._imagesLoading == 0) // all images loaded, start next scene
-        this.scene.stop();
+        this.playMusic();
     });
   }
 
-  create() {
+  playMusic() {
     this._soundManager.on('decodedall', () => {
       const music = this._soundManager.add('Music', {
         loop: true,

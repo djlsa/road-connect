@@ -39,9 +39,9 @@ export default abstract class Button extends Phaser.GameObjects.Container implem
     this.add([this._background, this._text]); // add background and text to button container
 
     const bounds = this.getBounds();
-    this.setSize(bounds.width, bounds.height); // needed for interactivity
+    this.setSize(bounds.width * 2, bounds.height * 2); // needed for interactivity
 
-    this.setInteractive({ cursor: 'pointer'}); // set up events
+    this.setInteractive({ cursor: 'pointer' }); // set up events
     this.on('pointerdown', () => { if(this._enabled) this._pointerDown() });
     this.on('pointerup', () => { if(this._enabled) this._pointerUp() });
 
