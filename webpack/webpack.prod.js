@@ -20,14 +20,6 @@ const prod = {
       }
     }
   },
-  module: {
-    rules: [
-      {
-        test: /\.png/,
-        type: 'asset/inline'
-      }
-    ]
-  },
   plugins: [
     new HtmlInlineScriptPlugin(),
     /*

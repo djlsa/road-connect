@@ -50,11 +50,12 @@ export default class Preload extends Phaser.Scene {
   }
 
   private loadBase64(key, uri) {
-    this.textures.addBase64(key, uri); // add to Phaser texture manager
     this._imagesLoading++; // 1 more image still loading
     const img = new Image(); // create HTMLImageElement to make sure it's loaded by browser before using
+    document.body.appendChild(img);
     img.src = uri; // set src to base64 encoded string
     img.addEventListener('load', () => {
+      this.textures.addImage(key, img); // add to Phaser texture manager
       this._imagesLoading--;
       if(this._imagesLoading == 0) // all images loaded, start next scene
         this.playMusic();
