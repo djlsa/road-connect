@@ -4,11 +4,7 @@ import Button from "./button";
 export default class HamburgerButton extends Button {
 
   constructor(scene: Scene) {
-    super(scene, '', 0, true, {
-      enabled: 'barsHorizontal',
-      pressed: '',
-      disabled: ''
-    });
+    super(scene, '', 0, true, { enabled: 'barsHorizontal' });
     this.setScale(0.8, 0.5892); // values from Unity: 80, 58.92
   }
 

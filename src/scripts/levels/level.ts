@@ -17,17 +17,18 @@ export default class Level extends poolMixin<Level>() {
   }
 
   // get a Level object by number
-  static get(number): Level|undefined {
-    const data = LevelData.MonoBehaviour.GameLevels[number];
+  static get(number): Level {
+    const data = LevelData.MonoBehaviour.GameLevels[number - 1];
     if(data) {
       const level: Level = Level.poolGet(); // fetch object from level object pool
       level.set(data);
       return level;
     }
-    return undefined;
+    return new Level();
   }
 
   private _pieces: Array<Piece> = [];
+  private _wrong: number = 0;
 
   // set instance data
   set(data) {
@@ -38,7 +39,26 @@ export default class Level extends poolMixin<Level>() {
       const assetID = LevelData.MonoBehaviour.LevelSprites[pieceData.PieceID]?.guid || '';
       // set piece instance data
       piece.set(pieceData.PieceID, assetID, pieceData.StartRotation, pieceData.TargetRotation);
+      if(!piece.isSolved())
+        this._wrong++; // count how many pieces are wrong
       this._pieces.push(piece);
     }
+  }
+
+  rotate(pieceIndex: number, angle: number) {
+    const piece = this._pieces[pieceIndex];
+    if(piece.isSolved())
+      this._wrong++; // rotated a solved piece, now it's wrong
+    piece.rotate(angle);
+    if(piece.isSolved()) // solved after rotate? then it's one less wrong
+      this._wrong--;
+  }
+
+  isSolved(): boolean {
+    return this._wrong == 0;
+  }
+
+  getPiece(pieceIndex: number): Piece {
+    return this._pieces[pieceIndex];
   }
 }

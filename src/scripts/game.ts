@@ -50,6 +50,17 @@ export default class GameCanvas extends Game {
       this.events.emit('resize');
     }, true);
   }
+
+  static loadProgress(): number {
+    const level = localStorage.getItem('rc_level');
+    if(level)
+      return parseInt(level);
+    return 0;
+  }
+
+  static saveProgress(level: number) {
+    localStorage.setItem('rc_level', '' + level);
+  }
 }
 
 // entry point

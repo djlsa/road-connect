@@ -5,25 +5,64 @@ import HamburgerButton from '../ui/hamburgerButton';
 import PuzzleGrid from '../ui/puzzleGrid';
 import Text from '../ui/text';
 import TextStyle from '../ui/textStyle';
+import Level from '../levels/level';
 
 export default class PuzzleScreen extends Scene {
   private _levelText: Text;
   private _puzzleGrid: PuzzleGrid;
   private _hamburgerButton: HamburgerButton;
 
+  private _level: Level;
+  private _levelNumber: number;
+
   constructor() {
     super({ key: 'PuzzleScreen' });
   }
 
+  init(data) {
+    this._levelNumber = parseInt(data.level);
+    this._level = Level.get(this._levelNumber);
+  }
+
   create() {
-    this._levelText = new Text(this, 'Level 1', TextStyle.BUTTON, 25);
-    this._puzzleGrid = new PuzzleGrid(this);
+    this._puzzleGrid = new PuzzleGrid(this, this._level);
     this._puzzleGrid.createGrid();
+
+    this._levelText = new Text(this, 'Level ' + this._levelNumber, TextStyle.BUTTON, 25);
 
     this._hamburgerButton = new HamburgerButton(this);
 
     // initial resize to position everything
     this.resize();
+
+    this._levelText.x = GameCanvas.hCenter * 2; // start from right
+    this._levelText.alpha = 0;
+
+    // animate
+    this.tweens.add({
+      targets: this._levelText,
+      x: GameCanvas.hCenter,
+      alpha: 1,
+      duration: 250
+    });
+
+    // listen for levelComplete event
+    this.events.on('levelComplete', () => {
+      GameCanvas.saveProgress(this._levelNumber); // save progress
+      this.tweens.add({
+        targets: this._levelText,
+        x: 0,
+        alpha: 0,
+        duration: 250,
+        onComplete: () => { // when animation ends, go to next level or end screen
+          this.scene.stop();
+          if(this._levelNumber < Level.getTotalLevels())
+            this.scene.start('PuzzleScreen', { level: this._levelNumber + 1 });
+          else
+            this.scene.start('WinScreen');
+        }
+      });
+    })
   }
 
   resize() {
@@ -31,9 +70,11 @@ export default class PuzzleScreen extends Scene {
     this._levelText.x = GameCanvas.hCenter;
     this._levelText.y = this._levelText.height / 2;
 
+    this._puzzleGrid.setScale(GameCanvas.hCenter > GameCanvas.vCenter ? 1 : 1.5);
+
     this._puzzleGrid.resize();
-    this._puzzleGrid.x = GameCanvas.hCenter - this._puzzleGrid.getBounds().width / 2.5 | 1; // integer values to prevent gaps
-    this._puzzleGrid.y = GameCanvas.vCenter - this._puzzleGrid.height / 2.2 | 1;
+    this._puzzleGrid.x = GameCanvas.hCenter - this._puzzleGrid.getBounds().width / 1.8 | 1; // integer values to prevent gaps
+    this._puzzleGrid.y = GameCanvas.vCenter - this._puzzleGrid.height / 2 | 1;
 
     this._hamburgerButton.resize();
     this._hamburgerButton.x = GameCanvas.hCenter;

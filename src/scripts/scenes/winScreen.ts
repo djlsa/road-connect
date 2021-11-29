@@ -1,7 +1,6 @@
 import Scene from './scene';
 import GameCanvas from '../game';
 
-import WinText from '../ui/winText';
 import HamburgerButton from '../ui/hamburgerButton';
 import Text from '../ui/text';
 import TextStyle from '../ui/textStyle';

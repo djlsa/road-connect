@@ -11,8 +11,8 @@ interface Clickable {
 // interface for button states
 interface ButtonStateTextures {
   enabled: string;
-  pressed: string;
-  disabled: string;
+  pressed?: string;
+  disabled?: string;
 }
 
 export default abstract class Button extends Phaser.GameObjects.Container implements Clickable {
@@ -27,7 +27,7 @@ export default abstract class Button extends Phaser.GameObjects.Container implem
 
     super(scene);
 
-    this._textures = textures || { enabled: '', disabled: '', pressed: '' }; // default textures
+    this._textures = textures || { enabled: '' }; // default textures
 
     this._background = new Phaser.GameObjects.Sprite(scene, 0, 0, this._textures.enabled);
 
@@ -60,10 +60,24 @@ export default abstract class Button extends Phaser.GameObjects.Container implem
     this._text.text = text;
   }
 
+  getText(): string {
+    return this._text.text;
+  }
+
   setEnabled(enabled: boolean) {
     this._enabled = enabled;
-    this._background.setTexture(enabled ? this._textures.enabled : this._textures.disabled);
+    this._updateTextures();
     this.resize();
+    
+  }
+
+  setTextures(textures: ButtonStateTextures) {
+    this._textures = textures;
+    this._updateTextures();
+  }
+
+  private _updateTextures() {
+    this._background.setTexture(this._enabled ? this._textures.enabled || '' : this._textures.disabled || this._textures.enabled || '');
   }
 
   setTint(color: number) {
@@ -81,7 +95,7 @@ export default abstract class Button extends Phaser.GameObjects.Container implem
 
   // default pointerup behaviour
   private _pointerUp() {
-    this._background.setTexture(this._enabled ? this._textures.enabled : this._textures.disabled);
+    this._updateTextures();
     this.pointerUp(); // child class behaviour
     this.click();
   }

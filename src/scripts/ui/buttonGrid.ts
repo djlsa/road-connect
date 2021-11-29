@@ -17,12 +17,12 @@ export default abstract class ButtonGrid extends Phaser.GameObjects.Container {
   }
 
   abstract getButton(): Button; // returns implementation specific button
+  abstract setButton(i: number, button: Button): void; // set up button (link level, piece, etc)
 
   createGrid() {
     for(let i = 0; i < this._totalItems; i++) {
       const button = this.getButton();
-      if(i == 0)
-        button.setEnabled(true); // first level always available
+      this.setButton(i, button);
       this.add(button);
       const buttonSize = button.getBounds();
       button.x = i % this._gridSize * (buttonSize.width + this._margin); // place column

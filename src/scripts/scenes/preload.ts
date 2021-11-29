@@ -20,23 +20,20 @@ import Piece from '../levels/piece';
 export default class Preload extends Phaser.Scene {
 
   // count images to load before starting game
-  _imagesLoading: number = 0;
+  private _imagesLoading: number = 0;
+  private _soundManager: Phaser.Sound.WebAudioSoundManager
 
   preload() {
     // manually create WebAudio context to decode base64 file
-    const soundManager: Phaser.Sound.WebAudioSoundManager = new Phaser.Sound.WebAudioSoundManager(this.game);
-    soundManager.decodeAudio([
+      this._soundManager = new Phaser.Sound.WebAudioSoundManager(this.game);
+      this._soundManager.decodeAudio([
       { key: 'Music', data: Music },
       { key: 'DefaultClick', data: DefaultClick },
       { key: 'ShapeAppear', data: ShapeAppear },
       { key: 'RotateShape', data: RotateShape },
       { key: 'LevelComplete', data: LevelComplete }
     ]);
-    soundManager.on('decodedall', () => {
-      soundManager.play('Music', {
-        volume: 0.4 // value from Unity
-      });
-    });
+
     // load images
     this.loadBase64('red_button08', red_button08);
     this.loadBase64('red_button09', red_button09);
@@ -45,11 +42,11 @@ export default class Preload extends Phaser.Scene {
 
     this.loadBase64(Piece.IDs[0], roadTexture_02);
     this.loadBase64(Piece.IDs[1], roadTexture_22_BN360);
-    this.loadBase64(Piece.IDs[2], roadTexture_06);
+    this.loadBase64(Piece.IDs[2], roadTexture_45);
     this.loadBase64(Piece.IDs[3], roadTexture_29);
-    this.loadBase64(Piece.IDs[4], roadTexture_01_MR180);
-    this.loadBase64(Piece.IDs[5], roadTexture_10_BN360);
-    this.loadBase64(Piece.IDs[6], roadTexture_45);
+    this.loadBase64(Piece.IDs[4], roadTexture_06);
+    this.loadBase64(Piece.IDs[5], roadTexture_01_MR180);
+    this.loadBase64(Piece.IDs[6], roadTexture_10_BN360);
   }
 
   private loadBase64(key, uri) {
@@ -61,7 +58,24 @@ export default class Preload extends Phaser.Scene {
       this._imagesLoading--;
       if(this._imagesLoading == 0) // all images loaded, start next scene
         this.scene.stop();
-        this.scene.start('TitleScreen');
+    });
+  }
+
+  create() {
+    this._soundManager.on('decodedall', () => {
+      const music = this._soundManager.add('Music', {
+        loop: true,
+        volume: 0
+      });
+      music.play();
+
+      let fade = setInterval(() => {
+        music.volume += 0.01; // fade in
+        if(music.volume >= 0.4) // value from Unity
+          clearInterval(fade);
+      }, 100);
+      this.scene.stop();
+      this.scene.start('TitleScreen');
     });
   }
 }
