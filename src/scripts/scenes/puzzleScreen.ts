@@ -74,7 +74,7 @@ export default class PuzzleScreen extends Scene {
     this._puzzleGrid.setScale(GameCanvas.hCenter > GameCanvas.vCenter ? 1 : 1.5); // para caber bem em landscape
 
     this._puzzleGrid.resize();
-    this._puzzleGrid.x = GameCanvas.hCenter - this._puzzleGrid.getBounds().width / 2 | 1; // integer values to prevent gaps
+    this._puzzleGrid.x = GameCanvas.hCenter - this._puzzleGrid.getBounds().width / 2.8 | 1; // integer values to prevent gaps
     this._puzzleGrid.y = GameCanvas.vCenter - this._puzzleGrid.height / 2 | 1;
 
     this._hamburgerButton.resize();

@@ -1,4 +1,5 @@
 import Level from "../levels/level";
+import Piece from "../levels/piece";
 import Button from "./button";
 
 export default class PuzzleButton extends Button {
@@ -7,7 +8,7 @@ export default class PuzzleButton extends Button {
   private _pieceIndex: number;
 
   constructor(scene) {
-    super(scene, '', 0, true, { enabled: '' });
+    super(scene, '', 0, true, { enabled: Piece.IDs[0] });
     this.setScale(0.25);
     this.alpha = 0;
   }
@@ -33,8 +34,9 @@ export default class PuzzleButton extends Button {
         delay: i * 90, 
         onStart: () => this.scene.sound.play('ShapeAppear')
       });
-    } else
-      this.visible = false;
+    } else {
+      this.alpha = 0; // hidden but with correct size
+    }
   }
 
   click() {
